@@ -79,7 +79,7 @@ export function useWebSocket(options: UseWebSocketOptions) {
       wsUrl += (wsUrl.includes('?') ? '&' : '?') + 'password=' + encodeURIComponent(typeof options.password === 'function' ? options.password() : options.password);
     }
     
-    let connectionTimeout: number | undefined;
+    let connectionTimeout: number | null = null;
     
     try {
       ws.value = new WebSocket(wsUrl);
@@ -99,7 +99,7 @@ export function useWebSocket(options: UseWebSocketOptions) {
 
       ws.value.onopen = () => {
         if (connectionTimeout) {
-          clearTimeout(connectionTimeout);
+          if (connectionTimeout) clearTimeout(connectionTimeout);
         }
         connectionStatus.value = 'connected';
         isConnecting.value = false;
@@ -121,7 +121,7 @@ export function useWebSocket(options: UseWebSocketOptions) {
       
       ws.value.onclose = (event) => {
         console.log('WebSocket onclose event, code:', event.code, 'reason:', event.reason);
-        clearTimeout(connectionTimeout);
+        if (connectionTimeout) clearTimeout(connectionTimeout);
         isConnecting.value = false;
         
         if (connectionStatus.value === 'connecting') {
@@ -256,4 +256,4 @@ export function useWebSocket(options: UseWebSocketOptions) {
       // 这样可以确保两个回调都能被正确调用
     },
   };
-} 
+}

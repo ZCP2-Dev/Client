@@ -156,7 +156,7 @@ const serverInfo = ref({
   uptime: 0
 });
 
-let refreshTimer: number | null = null;
+let refreshTimer: NodeJS.Timeout | null = null;
 
 // 格式化函数
 function formatCPUUsage(usage: number): string {
@@ -230,7 +230,7 @@ function startRefresh() {
   if (refreshTimer) {
     clearInterval(refreshTimer);
   }
-  refreshTimer = setInterval(() => {
+  refreshTimer = window.setInterval(() => {
     console.log('Overview: Refresh timer triggered');
     requestSystemInfo();
     requestServerInfo();

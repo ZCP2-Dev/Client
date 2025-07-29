@@ -117,7 +117,7 @@ const serverInfo = ref({
 // 服务器运行状态
 const isRunning = ref(false);
 
-let refreshTimer: number | null = null;
+let refreshTimer: NodeJS.Timeout | null = null;
 
 // 保存监听器引用以便清理
 let systemMessageListener: ((data: any) => void) | null = null;
@@ -223,7 +223,7 @@ function startRefresh() {
   if (refreshTimer) {
     clearInterval(refreshTimer);
   }
-  refreshTimer = setInterval(() => {
+  refreshTimer = window.setInterval(() => {
     requestSystemInfo();
     requestServerInfo();
     requestStatus();
