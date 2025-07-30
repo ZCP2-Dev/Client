@@ -11,11 +11,14 @@
       <div class="sidebar-menu">
   <template v-if="!isInConsole">
           <button @click="showServerList" class="menu-item" :class="{ 'active': currentView === 'serverList' }">
-            <IconMdiHome style="margin-right: 10px; font-size: 1.2em;" />服务器列表
-          </button>
-          <button @click="showAppSettings" class="menu-item" :class="{ 'active': currentView === 'appSettings' }">
-            <IconMdiCog style="margin-right: 10px; font-size: 1.2em;" />应用设置
-          </button>
+  <IconMdiHome style="margin-right: 10px; font-size: 1.2em;" />服务器列表
+</button>
+<button @click="navigateToUserManagement" class="menu-item">
+  <IconMdiAccountGroup style="margin-right: 10px; font-size: 1.2em;" />用户管理
+</button>
+<button @click="showAppSettings" class="menu-item" :class="{ 'active': currentView === 'appSettings' }">
+  <IconMdiCog style="margin-right: 10px; font-size: 1.2em;" />应用设置
+</button>
   </template>
   <template v-else>
           <button @click="showServerList" class="menu-item return-btn">
@@ -418,6 +421,10 @@ function showAppSettings() {
   currentView.value = 'appSettings';
   currentComponent.value = AppSettings;
   isInConsole.value = false;
+}
+
+function navigateToUserManagement() {
+  router.push('/user-management');
 }
 
 function enterConsole(server: any) {
